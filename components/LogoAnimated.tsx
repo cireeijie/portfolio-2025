@@ -1,0 +1,130 @@
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+
+type BounceAnimationOptions = {
+  y: number;
+  repeat: number;
+  yoyo: boolean;
+  duration: number;
+  ease: string;
+  onComplete?: () => void;
+};
+const LogoAnimated = () => {
+  const bounceRef = useRef<SVGPathElement | null>(null);
+  const rotateRef = useRef<SVGPathElement | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+
+  useEffect(() => {
+    if (!bounceRef.current || !rotateRef.current) return;
+
+    const bounceAnimation = () => {
+      gsap.to(bounceRef.current, {
+        y: -10,
+        repeat: 3,
+        yoyo: true,
+        duration: 0.6,
+        ease: "cubic-bezier(0.25, 1, 0.5, 1)",
+        onComplete: () => {
+          setTimeout(() => {
+            if (bounceRef.current) bounceAnimation();
+          }, 10000);
+        },
+      } as BounceAnimationOptions);
+    };
+
+    const rotateAnimation = () => {
+      gsap.to(rotateRef.current, {
+        rotation: 360,
+        duration: 1, // Adjust duration for the rotation animation
+        ease: "power2.inOut", // Smooth easing
+        transformOrigin: "50% 50%", // Rotate around the center
+      });
+    };
+
+    bounceAnimation();
+    rotateAnimation();
+
+    const handleMouseEnter = () => {
+      // Trigger both the bounce and rotation animations on hover
+      gsap.to(bounceRef.current, {
+        y: -10,
+        repeat: 3,
+        yoyo: true,
+        duration: 0.6,
+        ease: "cubic-bezier(0.25, 1, 0.5, 1)",
+      });
+
+      // Trigger the rotation animation on hover
+      rotateAnimation();
+    };
+
+    const handleMouseLeave = () => {
+      // Reset the bounce animation
+      gsap.to(bounceRef.current, { y: 0, duration: 0.5, ease: "power1.out" });
+
+      // Reset the rotation animation
+      gsap.to(rotateRef.current, {
+        rotation: 0,
+        duration: 0.5,
+        ease: "power1.out",
+        transformOrigin: "50% 50%",
+      });
+    };
+
+    if (svgRef.current) {
+      svgRef.current.addEventListener("mouseenter", handleMouseEnter);
+      svgRef.current.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (svgRef.current) {
+        svgRef.current.removeEventListener("mouseenter", handleMouseEnter);
+        svgRef.current.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
+
+  return (
+    <svg
+      ref={svgRef}
+      width="80"
+      height="66"
+      viewBox="0 0 80 66"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-[4.125rem] w-auto overflow-visible"
+    >
+      <path
+        id="bouncing"
+        ref={bounceRef}
+        d="M79.0649 37.1465C79.0649 38.7637 78.7729 40.291 78.189 41.7285C77.605 43.1211 76.7964 44.334 75.7632 45.3672C74.73 46.4004 73.5171 47.209 72.1245 47.793C70.7319 48.4219 69.2271 48.7363 67.6099 48.7363C66.0376 48.7363 64.5327 48.4219 63.0952 47.793C61.7026 47.209 60.4673 46.4004 59.3892 45.3672C58.356 44.334 57.5249 43.1211 56.896 41.7285C56.312 40.291 56.02 38.7637 56.02 37.1465C56.02 35.5742 56.312 34.0918 56.896 32.6992C57.5249 31.3066 58.356 30.0938 59.3892 29.0605C60.4673 28.0273 61.7026 27.2188 63.0952 26.6348C64.5327 26.0059 66.0376 25.6914 67.6099 25.6914C69.2271 25.6914 70.7319 26.0059 72.1245 26.6348C73.5171 27.2188 74.73 28.0273 75.7632 29.0605C76.7964 30.0938 77.605 31.3066 78.189 32.6992C78.7729 34.0918 79.0649 35.5742 79.0649 37.1465Z"
+        fill="url(#paint0_linear_2_13)"
+      />
+      <path
+        d="M49.1558 6.13184C49.1558 6.98535 48.9873 7.78271 48.6504 8.52393C48.3359 9.26514 47.8979 9.9165 47.3364 10.478C46.7974 11.0171 46.146 11.4551 45.3823 11.792C44.6411 12.1064 43.855 12.2637 43.0239 12.2637C42.1479 12.2637 41.3281 12.1064 40.5645 11.792C39.8232 11.4551 39.1719 11.0171 38.6104 10.478C38.0488 9.9165 37.5996 9.26514 37.2627 8.52393C36.9482 7.78271 36.791 6.98535 36.791 6.13184C36.791 5.30078 36.9482 4.51465 37.2627 3.77344C37.5996 3.00977 38.0488 2.3584 38.6104 1.81934C39.1719 1.25781 39.8232 0.819824 40.5645 0.505371C41.3281 0.168457 42.1479 0 43.0239 0C43.855 0 44.6411 0.168457 45.3823 0.505371C46.146 0.819824 46.7974 1.25781 47.3364 1.81934C47.8979 2.3584 48.3359 3.00977 48.6504 3.77344C48.9873 4.51465 49.1558 5.30078 49.1558 6.13184ZM24.46 65.7656V56.5005L29.5474 56.5679C30.7827 56.5679 31.9282 56.3096 32.9839 55.793C34.0396 55.2988 34.9492 54.625 35.7129 53.7715C36.499 52.9404 37.1167 51.9746 37.5659 50.874C38.0151 49.7734 38.2397 48.6167 38.2397 47.4038V15.936H47.6396V47.4038H47.5723C47.5498 49.0884 47.314 50.7168 46.8647 52.2891C46.438 53.8613 45.8203 55.3213 45.0117 56.6689C44.2031 58.0391 43.2373 59.2744 42.1143 60.375C40.9912 61.498 39.7446 62.4526 38.3745 63.2388C37.0269 64.0474 35.5781 64.665 34.0283 65.0918C32.4561 65.541 30.8276 65.7656 29.1431 65.7656H24.46Z"
+        fill="white"
+      />
+      <path
+        ref={rotateRef}
+        id="smooth-spin"
+        d="M16.2729 43.1924C16.6323 43.3047 16.9917 43.3833 17.3511 43.4282C17.7104 43.4507 18.0698 43.4619 18.4292 43.4619C19.3276 43.4619 20.1924 43.3384 21.0234 43.0913C21.8545 42.8442 22.6294 42.4961 23.3481 42.0469C24.0894 41.5752 24.7407 41.0137 25.3022 40.3623C25.8862 39.6885 26.3579 38.9473 26.7173 38.1387L33.4556 44.9106C32.6021 46.1235 31.6138 47.2129 30.4907 48.1787C29.3901 49.1445 28.1885 49.9644 26.8857 50.6382C25.6055 51.312 24.2466 51.8174 22.8091 52.1543C21.394 52.5137 19.9341 52.6934 18.4292 52.6934C15.8911 52.6934 13.499 52.2217 11.2529 51.2783C9.0293 50.335 7.0752 49.021 5.39062 47.3364C3.72852 45.6519 2.41455 43.6528 1.44873 41.3394C0.48291 39.0034 0 36.4429 0 33.6577C0 30.8052 0.48291 28.1997 1.44873 25.8413C2.41455 23.4829 3.72852 21.4727 5.39062 19.8105C7.0752 18.1484 9.0293 16.8569 11.2529 15.936C13.499 15.0151 15.8911 14.5547 18.4292 14.5547C19.9341 14.5547 21.4053 14.7344 22.8428 15.0938C24.2803 15.4531 25.6392 15.9697 26.9194 16.6436C28.2222 17.3174 29.4351 18.1484 30.5581 19.1367C31.6812 20.1025 32.6694 21.1919 33.5229 22.4048L16.2729 43.1924ZM20.9897 24.2241C20.563 24.0669 20.1362 23.9658 19.7095 23.9209C19.3052 23.876 18.8784 23.8535 18.4292 23.8535C17.1714 23.8535 15.981 24.0894 14.8579 24.561C13.7573 25.0103 12.7915 25.6616 11.9604 26.5151C11.1519 27.3687 10.5117 28.4019 10.04 29.6147C9.56836 30.8052 9.33252 32.1528 9.33252 33.6577C9.33252 33.9946 9.34375 34.3765 9.36621 34.8032C9.41113 35.23 9.46729 35.668 9.53467 36.1172C9.62451 36.5439 9.72559 36.9595 9.83789 37.3638C9.9502 37.7681 10.0962 38.1274 10.2759 38.4419L20.9897 24.2241Z"
+        fill="white"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_2_13"
+          x1="51.4165"
+          y1="39.5195"
+          x2="82.4165"
+          y2="39.5195"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#6A11CB" />
+          <stop offset="1" stopColor="#C471ED" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+};
+
+export default LogoAnimated;
