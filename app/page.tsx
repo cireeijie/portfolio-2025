@@ -33,7 +33,7 @@ export default function Home() {
     gsap.registerPlugin(ScrollTrigger);
 
     if (typeof window !== "undefined") {
-      const elements = document.querySelectorAll("main > *"); // Select direct children of <main>
+      const elements = document.querySelectorAll("main > *");
 
       elements.forEach((el) => {
         gsap.fromTo(
@@ -42,16 +42,18 @@ export default function Home() {
           {
             opacity: 1,
             y: 0,
-            duration: 1, // Smooth movement duration
+            duration: 1,
             ease: "power2.out",
             scrollTrigger: {
               trigger: el,
-              start: "top 85%", // Start animation when element is 85% visible
-              end: "bottom 10%", // Animation completes before it leaves the screen
-              toggleActions: "play none none none", // Ensures animation runs every time
-              scrub: 1, // Smooth animation on scroll
+              start: "top 85%",
+              end: "bottom 10%",
+              toggleActions: "play none none none",
+              scrub: 1,
             },
-            onStart: () => gsap.to(el, { opacity: 1, duration: 0.3 }), // Faster opacity transition
+            onStart: () => {
+              gsap.set(el, { opacity: 1, duration: 0.3 });
+            },
           }
         );
       });
@@ -67,7 +69,6 @@ export default function Home() {
     <main className="z-10 relative">
       <HeroSection {...heroSection} />
       <WhoAmI />
-      {/* <WhoAmI /> */}
     </main>
   );
 }
