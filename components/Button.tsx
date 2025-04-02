@@ -8,7 +8,7 @@ export default function Button({
   href,
   onClick,
 }: ButtonProps) {
-  const buttonClasses = `btn cursor-pointer uppercase text-[1rem] px-4 py-2 font-bold rounded transition-all duration-300 
+  const buttonClasses = `btn sm:w-fit w-full cursor-pointer uppercase text-[1rem] px-4 py-2 font-bold rounded transition-all duration-300 
     ${variant === "primary" ? "btn-primary" : "btn-secondary"}`;
 
   return href ? (

@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import Button from "./Button";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Default Swiper styles
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import WebFrameworksIcons from "./WebFrameworksIcons";
 import AnimatedRectangles from "./AnimatedRectangles";
 import AnimatedStoreSvg from "./AnimatedStoreSvg";
+import { ScrollTrigger } from "gsap/all"; // Ensure ScrollTrigger is registered
+
+gsap.registerPlugin(ScrollTrigger); // Register ScrollTrigger globally
 
 export default function WhoAmI() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -18,22 +19,21 @@ export default function WhoAmI() {
   const animatedTextRef = useRef<HTMLSpanElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const buttonContainerRef = useRef<HTMLDivElement>(null);
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const swiperRef = useRef<any>(null); // Reference to Swiper
+  const swiperRef = useRef<any>(null);
 
-  // Animated text options based on the active slide
   const textArray = [
     "fast, user-friendly sites 🌐",
     "fluid animations 🎨",
     "custom E-Commerce 🛒",
   ];
 
+  // Trigger animation on scroll for the entire section
   useEffect(() => {
-    const tl = gsap.timeline({
-      defaults: { ease: "power2.out" },
-    });
-
     if (!isLoaded) {
+      const tl = gsap.timeline({
+        defaults: { ease: "power2.out" },
+      });
+
       tl.from(
         [
           subheadingRef.current,
@@ -49,37 +49,54 @@ export default function WhoAmI() {
         }
       );
 
-      setIsLoaded(true);
+      setIsLoaded(true); // Ensure animation only runs once
     }
-  }, []);
 
+    // ScrollTrigger for animating on scroll
+    ScrollTrigger.create({
+      trigger: contentRef.current,
+      start: "top 80%", // Trigger when 80% of section comes into view
+      end: "bottom top", // Ends when section scrolls past top of the viewport
+      onEnter: () => {
+        // Additional animations if needed on scroll-in
+        gsap.to([subheadingRef.current, headingRef.current], {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+        });
+      },
+    });
+  }, [isLoaded]);
+
+  // Swiper text animation based on active slide change
   useEffect(() => {
-    const swiper = swiperRef.current.swiper;
-    // Change the animated text based on the active slide
+    const swiper = swiperRef.current?.swiper;
+
     const updateAnimatedText = () => {
       const activeIndex = swiper.activeIndex;
       gsap.to(animatedTextRef.current, {
         duration: 1.5,
-        text: textArray[activeIndex], // Change text based on the active slide
+        text: textArray[activeIndex],
         ease: "power2.out",
       });
     };
 
-    // Update text when the slide changes
-    swiper.on("slideChange", updateAnimatedText);
-
-    // Set the initial text when the component mounts
+    swiper?.on("slideChange", updateAnimatedText);
     updateAnimatedText();
 
     return () => {
-      swiper.off("slideChange", updateAnimatedText); // Clean up event listener
+      swiper?.off("slideChange", updateAnimatedText);
     };
-  }, [swiperRef]);
+  }, [swiperRef, textArray]);
 
   return (
-    <div className="relative flex items-center justify-between h-screen max-w-[97rem] mx-auto transition-all">
+    <div
+      ref={contentRef}
+      className="about-me-section relative flex sm:flex-row flex-col items-center justify-between sm:h-screen h-auto py-[5rem] gap-[3rem] sm:py-0 max-w-[97rem] mx-auto transition-all"
+    >
       {/* First column (fixed vertically) */}
-      <div ref={contentRef} className="max-w-[48rem] transition-all">
+      <div className="max-w-[48rem] transition-all">
         <p ref={subheadingRef} className="subheading mb-[2rem]">
           Who Am I?
         </p>
@@ -104,8 +121,7 @@ export default function WhoAmI() {
 
       {/* Second column (swiper with horizontal sliding) */}
       <div
-        ref={sliderRef}
-        className={`w-full max-w-[40rem] h-full max-h-[50vh] transition-all `}
+        className={`w-full max-w-[40rem] h-full sm:max-h-[50vh] max-h-auto transition-all`}
       >
         <Swiper
           ref={swiperRef}

@@ -48,7 +48,7 @@ export default function AnimatedRectangles() {
         viewBox="0 0 436 486"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="h-full"
+        className="h-full w-full overflow-visible"
       >
         <rect
           x="124"

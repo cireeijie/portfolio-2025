@@ -1,92 +1,107 @@
 "use client";
 
 import React, { useEffect } from "react";
-import gsap from "gsap";
-import { createId } from "@paralleldrive/cuid2";
+import {
+  positionIcons,
+  animateIcons,
+  addHoverEffect,
+} from "@/utils/animations";
 
 export default function WebFrameworksIcons() {
+  // useEffect(() => {
+  //   const icons = document.querySelectorAll(".webframeworks-icons > svg");
+  //   const container = document.querySelector(".webframeworks-icons");
+
+  //   const containerWidth = container?.clientWidth || 0;
+  //   const containerHeight = container?.clientHeight || 0;
+
+  //   const iconHeight = 70;
+  //   const iconMargin = 10;
+
+  //   const usedPositions: any = [];
+
+  //   icons.forEach((icon: any) => {
+  //     const iconWidth = icon.getBBox().width;
+  //     const uniqueId = createId();
+  //     icon.setAttribute("id", uniqueId);
+
+  //     let randomX: any, randomY: any;
+  //     let positionIsValid = false;
+
+  //     while (!positionIsValid) {
+  //       randomX = Math.random() * (containerWidth - iconWidth - iconMargin * 2);
+  //       randomY =
+  //         Math.random() * (containerHeight - iconHeight - iconMargin * 2);
+
+  //       positionIsValid = !usedPositions.some(
+  //         (position: any) =>
+  //           Math.abs(position.x - randomX) < iconWidth + iconMargin &&
+  //           Math.abs(position.y - randomY) < iconHeight + iconMargin
+  //       );
+  //     }
+
+  //     usedPositions.push({ x: randomX, y: randomY });
+
+  //     icon.style.position = "absolute";
+  //     icon.style.left = `${randomX}px`;
+  //     icon.style.top = `${randomY}px`;
+
+  //     icon.style.height = `${iconHeight}px`;
+  //     icon.style.width = "auto";
+
+  //     icon.style.willChange = "transform";
+
+  //     gsap.to(icon, {
+  //       y: "random(-10, 10)",
+  //       duration: 2,
+  //       repeat: -1,
+  //       yoyo: true,
+  //       ease: "power1.inOut",
+  //       immediateRender: false,
+  //     });
+
+  //     icon.addEventListener("mouseenter", () => {
+  //       gsap.to(icon, {
+  //         scale: 1.5,
+  //         duration: 0.3,
+  //         ease: "power2.out",
+  //       });
+  //     });
+
+  //     icon.addEventListener("mouseleave", () => {
+  //       gsap.to(icon, {
+  //         scale: 1,
+  //         duration: 0.3,
+  //         ease: "power2.out",
+  //       });
+  //     });
+  //   });
+  // }, []);
+
   useEffect(() => {
-    const icons = document.querySelectorAll(".webframeworks-icons > svg");
     const container = document.querySelector(".webframeworks-icons");
+    if (!container) return;
 
-    const containerWidth = container?.clientWidth || 0;
-    const containerHeight = container?.clientHeight || 0;
+    const icons = container.querySelectorAll("svg");
 
-    // Define the fixed size for the icons (height 70px, width auto)
-    const iconHeight = 70; // Fixed height for icons
-    const iconMargin = 10; // Extra space between icons to avoid collisions
-
-    // Store the positions of the icons to check for overlap
-    const usedPositions: any = [];
-
-    icons.forEach((icon: any) => {
-      const iconWidth = icon.getBBox().width; // Get the SVG icon's width based on its aspect ratio
-      const uniqueId = createId(); // Generates a unique ID for each icon
-      icon.setAttribute("id", uniqueId); // Assign the unique ID to each icon
-
-      let randomX: any, randomY: any;
-      let positionIsValid = false;
-
-      // Try finding a valid position that doesn't cause overlap
-      while (!positionIsValid) {
-        randomX = Math.random() * (containerWidth - iconWidth - iconMargin * 2); // Random X position with margin
-        randomY =
-          Math.random() * (containerHeight - iconHeight - iconMargin * 2); // Random Y position with margin
-
-        // Check if the new position overlaps with any previously placed icon
-        positionIsValid = !usedPositions.some(
-          (position: any) =>
-            Math.abs(position.x - randomX) < iconWidth + iconMargin &&
-            Math.abs(position.y - randomY) < iconHeight + iconMargin
-        );
-      }
-
-      // Save the valid position for future collision checks
-      usedPositions.push({ x: randomX, y: randomY });
-
-      // Set the position of the icon
-      icon.style.position = "absolute";
-      icon.style.left = `${randomX}px`;
-      icon.style.top = `${randomY}px`;
-
-      // Set icon dimensions (height fixed to 70px, width auto)
-      icon.style.height = `${iconHeight}px`;
-      icon.style.width = "auto";
-
-      // Optimize for performance: Use will-change property
-      icon.style.willChange = "transform";
-
-      // Use GSAP to apply floating animation (only once)
-      gsap.to(icon, {
-        y: "random(-10, 10)", // Move up and down within a small range
-        duration: 2, // Duration of the animation
-        repeat: -1, // Infinite loop
-        yoyo: true, // Make it float up and down
-        ease: "power1.inOut", // Ease for smooth floating
-        immediateRender: false, // Avoid unnecessary immediate renders
+    // Defer execution using setTimeout or requestIdleCallback
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(() => {
+        positionIcons(icons, container);
+        animateIcons(icons);
+        addHoverEffect(icons);
       });
-
-      // Add hover events for scaling (throttled)
-      icon.addEventListener("mouseenter", () => {
-        gsap.to(icon, {
-          scale: 1.5, // Scale up by 1.5 times when hovered
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      });
-
-      icon.addEventListener("mouseleave", () => {
-        gsap.to(icon, {
-          scale: 1, // Return to original size when not hovered
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      });
-    });
+    } else {
+      setTimeout(() => {
+        positionIcons(icons, container);
+        animateIcons(icons);
+        addHoverEffect(icons);
+      }, 0);
+    }
   }, []);
 
   return (
-    <div className="webframeworks-icons flex h-full p-10">
+    <div className="webframeworks-icons flex min-h-[350px] h-full p-10 w-full">
       <svg
         width="126"
         height="114"

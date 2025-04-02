@@ -63,7 +63,7 @@ export default function AnimatedStoreSvg() {
         viewBox="0 0 435 454"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="h-full overflow-visible"
+        className="h-full overflow-visible w-full"
       >
         <rect
           x="72"

@@ -20,7 +20,7 @@ export default function ProjectSlider({
 
   return (
     <div
-      className={`relative w-full flex gap-10 ${
+      className={`relative w-full flex gap-10 sm:flex-row flex-col ${
         swiperActive ? "h-full" : "aspect-[1/1.02] h-[580px]"
       }`}
     >
@@ -66,17 +66,28 @@ export default function ProjectSlider({
       </button>
       <Swiper
         effect="coverflow"
-        centeredSlides={swiperActive}
-        slidesPerView={3}
+        centeredSlides={true}
+        slidesPerView={"auto"}
         spaceBetween={30}
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: false,
+        }}
         coverflowEffect={{
           rotate: 0,
           stretch: swiperActive ? 100 : 0,
           depth: 150,
           modifier: swiperActive ? 1 : 0,
         }}
+        breakpoints={{
+          768: {
+            centeredSlides: swiperActive,
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+        }}
         modules={[EffectCoverflow]}
-        className={`flex-1 relative h-full transition-all duration-500 ease-in-out ${
+        className={`flex-1 relative h-full transition-all duration-500 ease-in-out w-full sm:w-auto ${
           swiperActive ? "active" : "in-active"
         }`}
       >
@@ -103,7 +114,7 @@ export default function ProjectSlider({
               className="w-full h-full object-cover object-top"
             />
             <Link
-              href={project.link}
+              href={project.link || ""}
               target="_blank"
               className={`absolute top-0 w-full h-full flex items-center justify-center transition-opacity duration-500 opacity-0 hover:opacity-100 bg-black/80 ${
                 !swiperActive && "opacity-0 pointer-events-none"

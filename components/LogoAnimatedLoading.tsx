@@ -11,7 +11,7 @@ type BounceAnimationOptions = {
   ease: string;
   onComplete?: () => void;
 };
-const LogoAnimated = () => {
+const LogoAnimatedLoading = () => {
   const bounceRef = useRef<SVGPathElement | null>(null);
   const rotateRef = useRef<SVGPathElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -22,7 +22,7 @@ const LogoAnimated = () => {
       y: "-10px", // Move the logo up by 10px
       repeat: -1, // Repeat indefinitely
       yoyo: true, // Reverse the animation after reaching the peak
-      duration: 1.5, // Duration of the float animation
+      duration: 0.4, // Duration of the float animation
       ease: "power1.inOut", // Ease for smooth floating
     });
   }, []);
@@ -140,4 +140,4 @@ const LogoAnimated = () => {
   );
 };
 
-export default LogoAnimated;
+export default LogoAnimatedLoading;

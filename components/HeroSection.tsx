@@ -6,6 +6,11 @@ import { TextPlugin, ScrollTrigger } from "gsap/all";
 import { HeroSectionProps } from "../constants/types";
 import Button from "./Button";
 import ProjectSlider from "./ProjectSlider";
+import {
+  typewriterEffect,
+  animateElementsOnLoad,
+  applyTiltEffect,
+} from "@/utils/animations"; // Adjust path as needed
 
 gsap.registerPlugin(TextPlugin);
 gsap.registerPlugin(ScrollTrigger);
@@ -21,154 +26,45 @@ export default function HeroSection(props: HeroSectionProps) {
   const buttonContainerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const tiltRef = useRef<HTMLDivElement>(null);
+  const tiltRef = useRef<HTMLDivElement | null>(null);
   const maxTilt = 15;
 
   useEffect(() => {
-    const textArray = [
-      "Eric John 👋",
-      "a Full Stack Developer 💻",
-      "a Shopify Expert 🛒",
-      "a Web Designer 🎨",
-      "a Problem Solver 🧠",
-    ];
-    let textArrayIndex = 0;
-
-    const typewriter = () => {
-      gsap.to(animatedTextRef.current, {
-        duration: 3,
-        text: textArray[textArrayIndex],
-        ease: "power2.out",
-        onComplete: () => {
-          textArrayIndex = (textArrayIndex + 1) % textArray.length;
-          setTimeout(typewriter, 1000);
-        },
+    if (animatedTextRef.current) {
+      ScrollTrigger.create({
+        trigger: animatedTextRef.current,
+        start: "top bottom", // Trigger when the top of the element hits the bottom of the viewport
+        end: "bottom top", // End when the bottom of the element leaves the top of the viewport
+        onEnter: () => typewriterEffect(animatedTextRef), // Trigger the typewriter effect on enter
       });
-    };
-
-    typewriter();
+    }
   }, []);
 
+  // Call animation on load
   useEffect(() => {
-    const tl = gsap.timeline({
-      defaults: { ease: "power2.out" },
-    });
+    animateElementsOnLoad(
+      isLoaded,
+      setIsLoaded,
+      isActive,
+      subheadingRef,
+      headingRef,
+      descriptionRef,
+      buttonContainerRef,
+      contentRef,
+      sliderRef
+    );
+  }, [isActive, isLoaded]);
 
-    if (!isLoaded) {
-      tl.from(
-        [
-          subheadingRef.current,
-          headingRef.current,
-          descriptionRef.current,
-          buttonContainerRef.current,
-        ],
-        {
-          y: -50,
-          opacity: 0,
-          duration: 0.6,
-          stagger: 0.1,
-        }
-      );
-
-      setIsLoaded(true);
-    }
-
-    if (isActive) {
-      tl.to(
-        [
-          subheadingRef.current,
-          headingRef.current,
-          descriptionRef.current,
-          buttonContainerRef.current,
-        ],
-        {
-          y: -20,
-          opacity: 0,
-          duration: 0.3,
-          stagger: 0.05,
-        }
-      )
-        .to(contentRef.current, { opacity: 0, duration: 0.2 })
-        .set(contentRef.current, { display: "none" })
-        .to(sliderRef.current, {
-          width: "100%",
-          maxWidth: "100%",
-          duration: 0.4,
-        });
-    } else {
-      tl.to(sliderRef.current, {
-        width: "40rem",
-        maxWidth: "40rem",
-        duration: 0.4,
-      })
-        .set(contentRef.current, { display: "block" })
-        .to(contentRef.current, { opacity: 1, duration: 0.2 })
-        .to(
-          [
-            subheadingRef.current,
-            headingRef.current,
-            descriptionRef.current,
-            buttonContainerRef.current,
-          ],
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.3,
-            stagger: 0.05,
-          }
-        );
-    }
+  // Apply tilt effect
+  useEffect(() => {
+    const cleanupTiltEffect = applyTiltEffect(tiltRef, isActive, 15);
+    return cleanupTiltEffect;
   }, [isActive]);
-
-  useEffect(() => {
-    const tiltElement = tiltRef.current;
-
-    const updateTilt = (event: any) => {
-      const { innerWidth: width, innerHeight: height } = window;
-      const { clientX: x, clientY: y } = event;
-
-      // Calculate tilt angles
-      const tiltX = ((x / width) * 2 - 1) * maxTilt;
-      const tiltY = ((y / height) * 2 - 1) * maxTilt;
-
-      // Apply tilt using GSAP
-      gsap.to(tiltElement, {
-        rotationX: -tiltY,
-        rotationY: tiltX,
-        transformPerspective: 2000,
-        transformOrigin: "center",
-        ease: "power1.out",
-        duration: 0.3,
-      });
-    };
-
-    const resetTilt = () => {
-      console.log("resetting");
-      gsap.to(tiltElement, {
-        rotationX: 0,
-        rotationY: 0,
-        duration: 0.5,
-        ease: "power2.out",
-      });
-    };
-
-    if (!isActive) {
-      window.addEventListener("mousemove", updateTilt);
-      window.addEventListener("mouseleave", resetTilt); // Reset when mouse leaves
-    } else {
-      resetTilt(); // Immediately reset tilt when disabled
-    }
-
-    return () => {
-      window.removeEventListener("mousemove", updateTilt);
-      window.removeEventListener("mouseleave", resetTilt);
-    };
-  }, [isActive]); // Runs when isActive changes
 
   return (
     <div
       ref={containerRef}
-      className="relative flex items-center justify-between h-screen max-w-[97rem] mx-auto transition-all"
+      className="hero-section relative flex sm:flex-row flex-col pt-[13rem] sm:pt-0 sm:pb-0 pb-[4rem] items-center justify-between h-screen max-w-[97rem] mx-auto transition-all"
     >
       {/* Hero Content */}
       <div ref={contentRef} className="max-w-[48rem] transition-all">
@@ -191,7 +87,7 @@ export default function HeroSection(props: HeroSectionProps) {
         {/* Button Container */}
         <div
           ref={buttonContainerRef}
-          className="flex items-center gap-[1rem] mt-[3.125rem]"
+          className="flex items-center sm:flex-row flex-col gap-[1rem] mt-[3.125rem]"
         >
           <Button
             text={props.primaryBtnText ?? ""}
@@ -212,7 +108,7 @@ export default function HeroSection(props: HeroSectionProps) {
       {/* Project Slider */}
       <div
         ref={sliderRef}
-        className={`w-full absolute right-0 transition-all ${
+        className={`w-full relative sm:absolute right-0 transition-all ${
           isActive ? "max-w-[100%]" : "max-w-[40rem]"
         }`}
       >

@@ -10,15 +10,23 @@ export type HeroSectionProps = {
 };
 
 export type ProjectsProps = {
-  title: string;
-  description: string;
-  image: string;
-  link: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  link?: string;
+};
+
+export type WorkExperienceProps = {
+  companyName?: string;
+  logoUrl?: string;
+  jobTitle?: string;
+  desc?: string;
 };
 
 export type Data = {
   heroSection: HeroSectionProps;
   projects: ProjectsProps[];
+  workExperience: WorkExperienceProps[];
 };
 
 export type ButtonProps = {
