@@ -2,13 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import Button from "./Button";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { ScrollTrigger } from "gsap/all";
 
 // Default Swiper styles
 import "swiper/css";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
-import WebFrameworksIcons from "./WebFrameworksIcons";
-import AnimatedRectangles from "./AnimatedRectangles";
-import AnimatedStoreSvg from "./AnimatedStoreSvg";
 import Link from "next/link";
 
 import data from "@/constants/data";
@@ -18,43 +16,43 @@ export default function CTA() {
   const contentRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const subheadingRef = useRef<HTMLParagraphElement>(null);
-  const animatedTextRef = useRef<HTMLSpanElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const buttonContainerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
-  const swiperRef = useRef<any>(null);
   const projects = data.projects;
 
-  const textArray = [
-    "fast, user-friendly sites 🌐",
-    "fluid animations 🎨",
-    "custom E-Commerce 🛒",
-  ];
-
   useEffect(() => {
-    const tl = gsap.timeline({
-      defaults: { ease: "power2.out" },
-    });
-
     if (!isLoaded) {
-      tl.from(
-        [
-          subheadingRef.current,
-          headingRef.current,
-          descriptionRef.current,
-          buttonContainerRef.current,
-        ],
-        {
-          y: -50,
-          opacity: 0,
-          duration: 0.6,
-          stagger: 0.1,
-        }
-      );
+      // ScrollTrigger for animating on scroll
+      ScrollTrigger.create({
+        trigger: contentRef.current,
+        start: "top 80%", // Trigger when 80% of section comes into view
+        onEnter: () => {
+          // Run animation when the section enters the viewport
+          const tl = gsap.timeline({
+            defaults: { ease: "power2.out" },
+          });
 
-      setIsLoaded(true);
+          tl.from(
+            [
+              subheadingRef.current,
+              headingRef.current,
+              descriptionRef.current,
+              buttonContainerRef.current,
+            ],
+            {
+              y: -50,
+              opacity: 0,
+              duration: 0.6,
+              stagger: 0.1,
+            }
+          );
+
+          setIsLoaded(true); // Ensure animation runs only once
+        },
+      });
     }
-  }, []);
+  }, [isLoaded]);
 
   return (
     <div className="cta-section relative flex sm:flex-row flex-col items-center justify-between sm:h-screen h-auto max-w-[97rem] py-[5rem] sm:py-0 gap-[3rem] mx-auto transition-all">
@@ -77,7 +75,11 @@ export default function CTA() {
           ref={buttonContainerRef}
           className="flex items-center gap-[1rem] mt-[3.125rem]"
         >
-          <Button text="Let's get started" href="" variant="primary" />
+          <Button
+            text="Let's get started"
+            href="https://calendly.com/ericjohnariate/work-with-me"
+            variant="primary"
+          />
         </div>
       </div>
 

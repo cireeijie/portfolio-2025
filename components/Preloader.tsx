@@ -23,7 +23,7 @@ export default function Preloader() {
 
   return (
     <div
-      className={`w-full h-screen flex absolute bg-[#040308] z-100 items-center justify-center preloader ${
+      className={`w-full h-screen flex fixed bg-[#040308] z-100 items-center justify-center preloader ${
         !isLoading && "preloader-loaded"
       }`}
     >

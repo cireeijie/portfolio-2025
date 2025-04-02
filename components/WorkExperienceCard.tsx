@@ -66,7 +66,7 @@ export default function WorkExperienceCard(props: WorkExperienceProps) {
           alt={props.companyName || ""}
           width={250}
           height={250}
-          className="w-fit h-[50px] my-6"
+          className="w-auto h-[50px]  my-6 "
         />
         <h3 className="text-2xl font-black mb-2">{props.jobTitle}</h3>
         <p className="text-[14px]">{props.desc}</p>

@@ -30,43 +30,35 @@ export default function WhoAmI() {
   // Trigger animation on scroll for the entire section
   useEffect(() => {
     if (!isLoaded) {
-      const tl = gsap.timeline({
-        defaults: { ease: "power2.out" },
+      // ScrollTrigger for animating on scroll
+      ScrollTrigger.create({
+        trigger: contentRef.current,
+        start: "top 80%", // Trigger when 80% of section comes into view
+        onEnter: () => {
+          // Run animation when the section enters the viewport
+          const tl = gsap.timeline({
+            defaults: { ease: "power2.out" },
+          });
+
+          tl.from(
+            [
+              subheadingRef.current,
+              headingRef.current,
+              descriptionRef.current,
+              buttonContainerRef.current,
+            ],
+            {
+              y: -50,
+              opacity: 0,
+              duration: 0.6,
+              stagger: 0.1,
+            }
+          );
+
+          setIsLoaded(true); // Ensure animation runs only once
+        },
       });
-
-      tl.from(
-        [
-          subheadingRef.current,
-          headingRef.current,
-          descriptionRef.current,
-          buttonContainerRef.current,
-        ],
-        {
-          y: -50,
-          opacity: 0,
-          duration: 0.6,
-          stagger: 0.1,
-        }
-      );
-
-      setIsLoaded(true); // Ensure animation only runs once
     }
-
-    // ScrollTrigger for animating on scroll
-    ScrollTrigger.create({
-      trigger: contentRef.current,
-      start: "top 80%", // Trigger when 80% of section comes into view
-      end: "bottom top", // Ends when section scrolls past top of the viewport
-      onEnter: () => {
-        // Additional animations if needed on scroll-in
-        gsap.to([subheadingRef.current, headingRef.current], {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-        });
-      },
-    });
   }, [isLoaded]);
 
   // Swiper text animation based on active slide change
@@ -115,7 +107,11 @@ export default function WhoAmI() {
           ref={buttonContainerRef}
           className="flex items-center gap-[1rem] mt-[3.125rem]"
         >
-          <Button text="Let's Build Something Cool" href="" variant="primary" />
+          <Button
+            text="Let's Build Something Cool"
+            href="https://calendly.com/ericjohnariate/work-with-me"
+            variant="primary"
+          />
         </div>
       </div>
 

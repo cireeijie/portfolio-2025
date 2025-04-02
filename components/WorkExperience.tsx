@@ -1,8 +1,11 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import Button from "./Button";
 import { WorkExperienceProps } from "@/constants/types";
 import WorkExperiences from "./WorkExperiences";
+import { ScrollTrigger } from "gsap/all";
 
 export default function WorkExperience() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -14,30 +17,37 @@ export default function WorkExperience() {
   const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const tl = gsap.timeline({
-      defaults: { ease: "power2.out" },
-    });
-
     if (!isLoaded) {
-      tl.from(
-        [
-          subheadingRef.current,
-          headingRef.current,
-          descriptionRef.current,
-          buttonContainerRef.current,
-        ],
-        {
-          y: -50,
-          opacity: 0,
-          duration: 0.6,
-          stagger: 0.1,
-        }
-      );
+      // ScrollTrigger for animating on scroll
+      ScrollTrigger.create({
+        trigger: contentRef.current,
+        start: "top 80%", // Trigger when 80% of section comes into view
+        onEnter: () => {
+          // Run animation when the section enters the viewport
+          const tl = gsap.timeline({
+            defaults: { ease: "power2.out" },
+          });
 
-      setIsLoaded(true);
+          tl.from(
+            [
+              subheadingRef.current,
+              headingRef.current,
+              descriptionRef.current,
+              buttonContainerRef.current,
+            ],
+            {
+              y: -50,
+              opacity: 0,
+              duration: 0.6,
+              stagger: 0.1,
+            }
+          );
+
+          setIsLoaded(true); // Ensure animation runs only once
+        },
+      });
     }
-  }, []);
-
+  }, [isLoaded]);
   return (
     <div className="work-experience-section relative flex sm:flex-row flex-col items-center justify-between sm:h-screen h-full pt-[5rem] pb-[7rem] sm:pt-0 sm:pb-0 gap-[2rem] max-w-[97rem] mx-auto transition-all">
       <div ref={contentRef} className="max-w-[48rem] transition-all">
@@ -59,7 +69,11 @@ export default function WorkExperience() {
           ref={buttonContainerRef}
           className="flex items-center gap-[1rem] mt-[3.125rem]"
         >
-          <Button text="Let's Build Something Cool" href="" variant="primary" />
+          <Button
+            text="Let's Build Something Cool"
+            href="https://calendly.com/ericjohnariate/work-with-me"
+            variant="primary"
+          />
         </div>
       </div>
 

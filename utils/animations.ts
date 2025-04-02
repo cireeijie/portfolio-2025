@@ -51,15 +51,15 @@ export const typewriterEffect = (
 };
 
 export const animateElementsOnLoad = (
-  isLoaded: boolean,
-  setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>,
-  isActive: boolean,
-  subheadingRef: RefObject<HTMLElement | null>,
-  headingRef: RefObject<HTMLElement | null>,
-  descriptionRef: RefObject<HTMLElement | null>,
-  buttonContainerRef: RefObject<HTMLElement | null>,
-  contentRef: RefObject<HTMLElement | null>,
-  sliderRef: RefObject<HTMLElement | null>
+  isLoaded: boolean, // Boolean indicating if the elements are loaded
+  setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>, // State setter for `isLoaded`
+  isActive: boolean, // Boolean indicating whether the tilt effect or animation is active
+  subheadingRef: React.RefObject<HTMLElement | null>, // Ref for subheading
+  headingRef: React.RefObject<HTMLElement | null>, // Ref for heading
+  descriptionRef: React.RefObject<HTMLElement | null>, // Ref for description
+  buttonContainerRef: React.RefObject<HTMLElement | null>, // Ref for button container
+  contentRef: React.RefObject<HTMLElement | null>, // Ref for content section
+  sliderRef: React.RefObject<HTMLElement | null>
 ) => {
   const tl = gsap.timeline({
     defaults: { ease: "power2.out" },

@@ -5,13 +5,13 @@ import Link from "next/link";
 export default function Button({
   text,
   variant = "primary",
-  href,
+  href = "/",
   onClick,
 }: ButtonProps) {
   const buttonClasses = `btn sm:w-fit w-full cursor-pointer uppercase text-[1rem] px-4 py-2 font-bold rounded transition-all duration-300 
     ${variant === "primary" ? "btn-primary" : "btn-secondary"}`;
 
-  return href ? (
+  return href !== "" ? (
     <Link href={href} className={buttonClasses} onClick={onClick}>
       <span className="z-10">{text}</span>
     </Link>
