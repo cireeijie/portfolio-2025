@@ -20,7 +20,7 @@ export default function ProjectSlider({
 
   return (
     <div
-      className={`relative w-full flex gap-10 sm:flex-row flex-col ${
+      className={`relative w-full flex gap-10 lg:flex-row flex-col ${
         swiperActive ? "h-full" : "aspect-[1/1.02] h-[580px]"
       }`}
     >
@@ -87,7 +87,7 @@ export default function ProjectSlider({
           },
         }}
         modules={[EffectCoverflow]}
-        className={`flex-1 relative h-full transition-all duration-500 ease-in-out w-full sm:w-auto ${
+        className={`flex-1 relative h-full transition-all duration-500 ease-in-out w-full lg:w-auto ${
           swiperActive ? "active" : "in-active"
         }`}
       >

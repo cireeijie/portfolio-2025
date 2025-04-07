@@ -55,7 +55,7 @@ export default function CTA() {
   }, [isLoaded]);
 
   return (
-    <div className="cta-section relative flex sm:flex-row flex-col items-center justify-between sm:h-screen h-auto max-w-[97rem] py-[5rem] sm:py-0 gap-[3rem] mx-auto transition-all">
+    <div className="cta-section relative flex lg:flex-row flex-col items-center justify-between lg:h-screen h-auto max-w-[97rem] py-[5rem] lg:py-0 gap-[3rem] mx-auto transition-all">
       {/* First column (fixed vertically) */}
       <div ref={contentRef} className="max-w-[48rem] transition-all">
         <p ref={subheadingRef} className="subheading mb-[2rem]">

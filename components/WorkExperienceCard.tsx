@@ -48,7 +48,7 @@ export default function WorkExperienceCard(props: WorkExperienceProps) {
   return (
     <div
       ref={cardRef}
-      className="relative flex flex-col gap-4 rounded-[10px] overflow-hidden p-[20px] sm:p-[40px] backdrop-blur-[10px] group transition-transform w-full m-w-[300px]"
+      className="relative flex flex-col gap-4 rounded-[10px] overflow-hidden p-[20px] md:p-[40px] backdrop-blur-[10px] group transition-transform w-full m-w-[300px]"
     >
       {/* Default Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-[rgba(20,20,20,0.9)] to-[rgba(10,10,10,0.9)]"></div>

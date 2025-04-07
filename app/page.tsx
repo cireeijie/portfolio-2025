@@ -11,6 +11,7 @@ import CTA from "@/components/CTA";
 import Header from "@/components/Header";
 import Preloader from "@/components/Preloader";
 import Loading from "./loading";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const { heroSection } = data;
@@ -26,6 +27,7 @@ export default function Home() {
           <WhoAmI />
           <WorkExperience />
           <CTA />
+          <Footer />
         </main>
       </Suspense>
     </>

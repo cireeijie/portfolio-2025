@@ -49,7 +49,7 @@ export default function WorkExperience() {
     }
   }, [isLoaded]);
   return (
-    <div className="work-experience-section relative flex sm:flex-row flex-col items-center justify-between sm:h-screen h-full pt-[5rem] pb-[7rem] sm:pt-0 sm:pb-0 gap-[2rem] max-w-[97rem] mx-auto transition-all">
+    <div className="work-experience-section relative flex lg:flex-row flex-col items-center justify-between lg:h-screen h-full pt-[5rem] pb-[7rem] lg:pt-0 lg:pb-0 gap-[2rem] max-w-[97rem] mx-auto transition-all">
       <div ref={contentRef} className="max-w-[48rem] transition-all">
         <p ref={subheadingRef} className="subheading mb-[2rem]">
           Work Experience

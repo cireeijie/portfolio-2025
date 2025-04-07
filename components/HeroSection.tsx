@@ -64,7 +64,7 @@ export default function HeroSection(props: HeroSectionProps) {
   return (
     <div
       ref={containerRef}
-      className="hero-section relative flex sm:flex-row flex-col pt-[13rem] sm:pt-0 sm:pb-0 pb-[4rem] items-center justify-between h-screen max-w-[97rem] mx-auto transition-all"
+      className="hero-section relative flex lg:flex-row flex-col pt-[13rem] lg:pt-0 lg:pb-0 pb-[4rem] items-center justify-between h-auto lg:h-screen max-w-[97rem] mx-auto transition-all"
     >
       {/* Hero Content */}
       <div ref={contentRef} className="max-w-[48rem] transition-all">
@@ -87,7 +87,7 @@ export default function HeroSection(props: HeroSectionProps) {
         {/* Button Container */}
         <div
           ref={buttonContainerRef}
-          className="flex items-center sm:flex-row flex-col gap-[1rem] mt-[3.125rem]"
+          className="flex items-center lg:flex-row flex-col gap-[1rem] mt-[3.125rem]"
         >
           <Button
             text={props.primaryBtnText ?? ""}
@@ -108,7 +108,7 @@ export default function HeroSection(props: HeroSectionProps) {
       {/* Project Slider */}
       <div
         ref={sliderRef}
-        className={`w-full relative sm:absolute right-0 transition-all ${
+        className={`w-full relative lg:absolute right-0 transition-all ${
           isActive ? "max-w-[100%]" : "max-w-[40rem]"
         }`}
       >

@@ -85,7 +85,7 @@ export default function WhoAmI() {
   return (
     <div
       ref={contentRef}
-      className="about-me-section relative flex sm:flex-row flex-col items-center justify-between sm:h-screen h-auto py-[5rem] gap-[3rem] sm:py-0 max-w-[97rem] mx-auto transition-all"
+      className="about-me-section relative flex lg:flex-row flex-col items-center justify-between lg:h-screen h-auto py-[5rem] gap-[3rem] lg:py-0 max-w-[97rem] mx-auto transition-all"
     >
       {/* First column (fixed vertically) */}
       <div className="max-w-[48rem] transition-all">
@@ -117,7 +117,7 @@ export default function WhoAmI() {
 
       {/* Second column (swiper with horizontal sliding) */}
       <div
-        className={`w-full max-w-[40rem] h-full sm:max-h-[50vh] max-h-auto transition-all`}
+        className={`w-full max-w-[40rem] h-full lg:max-h-[50vh] max-h-auto transition-all`}
       >
         <Swiper
           ref={swiperRef}
