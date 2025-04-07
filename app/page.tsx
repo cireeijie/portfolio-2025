@@ -22,7 +22,7 @@ export default function Home() {
 
       <Suspense fallback={<Loading />}>
         <Header />
-        <main className="z-10 relative snap-y snap-mandatory">
+        <main className="z-10 relative snap-y snap-mandatory text-white">
           <HeroSection {...heroSection} />
           <WhoAmI />
           <WorkExperience />

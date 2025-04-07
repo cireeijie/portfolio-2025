@@ -64,7 +64,7 @@ export default function HeroSection(props: HeroSectionProps) {
   return (
     <div
       ref={containerRef}
-      className="hero-section relative flex lg:flex-row flex-col pt-[13rem] lg:pt-0 lg:pb-0 pb-[4rem] items-center justify-between h-auto lg:h-screen max-w-[97rem] mx-auto transition-all"
+      className="hero-section relative flex lg:flex-row flex-col pt-[13rem] lg:pt-0 lg:pb-0 pb-[4rem] items-center justify-between h-auto lg:h-screen max-w-[97rem] mx-auto transition-all text-white"
     >
       {/* Hero Content */}
       <div ref={contentRef} className="max-w-[48rem] transition-all">
