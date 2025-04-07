@@ -2,9 +2,7 @@
 
 import HeroSection from "@/components/HeroSection";
 import data from "@/constants/data";
-import { Suspense, useEffect, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger, CSSRulePlugin } from "gsap/all";
+import { Suspense } from "react";
 import WhoAmI from "@/components/WhoAmI";
 import WorkExperience from "@/components/WorkExperience";
 import CTA from "@/components/CTA";
