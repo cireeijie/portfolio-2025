@@ -77,7 +77,7 @@ export default function CTA() {
         >
           <Button
             text="Let's get started"
-            href="https://calendly.com/ericjohnariate/work-with-me"
+            href="https://calendly.com/ericjohnariate-dev/work-with-me"
             variant="primary"
           />
         </div>

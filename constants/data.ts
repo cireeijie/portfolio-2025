@@ -9,7 +9,7 @@ const data: Data = {
       "From custom Shopify sections to high-performance websites, I turn ideas into seamless, high-converting digital experiences.",
     primaryBtnText: "Explore my work",
     secondaryBtnText: "WORK WITH ME",
-    secondaryBtnLink: "https://calendly.com/ericjohnariate/work-with-me",
+    secondaryBtnLink: "https://calendly.com/ericjohnariate-dev/work-with-me",
   },
   projects: [
     {

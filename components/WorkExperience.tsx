@@ -71,7 +71,7 @@ export default function WorkExperience() {
         >
           <Button
             text="Let's Build Something Cool"
-            href="https://calendly.com/ericjohnariate/work-with-me"
+            href="https://calendly.com/ericjohnariate-dev/work-with-me"
             variant="primary"
           />
         </div>
